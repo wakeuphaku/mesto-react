@@ -1,14 +1,45 @@
+import React from "react";
 import { Header } from "./Header.js";
 import { Main } from "./Main.js";
 import { Footer } from "./Footer.js";
 import { PopupWithForm } from "./PopupWithForm.js";
 import { ImagePopup } from "./ImagePopup.js";
+
 function App() {
+
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+
+
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
+
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+  }
+
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+
+  }
   return (
     <body className="page">
 
       <Header />
-      <Main />
+      <Main
+        onEditProfile={handleEditProfileClick}
+        onEditAvatar={handleEditAvatarClick}
+        onAddPlace={handleAddPlaceClick}
+      />
       <template className="elements">
         <div className="element">
           <img src="../src/images/mgu.jpg" alt="" className="element__photo" />
@@ -25,6 +56,8 @@ function App() {
       <PopupWithForm
         name="edit"
         title="Редактировать профиль"
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
       >
         <div className="popup__form-block">
           <input
@@ -57,6 +90,8 @@ function App() {
       <PopupWithForm
         name="add"
         title="Новое место"
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
       >
 
         <div className="popup__form-block">
@@ -98,6 +133,8 @@ function App() {
       <PopupWithForm
         name="avatar"
         title="Обновить аватар"
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
       >
         <div className="popup__form-block">
           <input
