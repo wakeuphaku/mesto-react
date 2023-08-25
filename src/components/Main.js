@@ -59,7 +59,7 @@ export function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
 
             <template className="elements">
                 {cards.map(card => (
-                    <Card card={card} onCardClick={onCardClick} />
+                    <Card key={card._id} card={card} onCardClick={onCardClick} />
                 ))}
             </template>
         </main>
