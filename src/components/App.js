@@ -5,13 +5,17 @@ import { Footer } from "./Footer.js";
 import { PopupWithForm } from "./PopupWithForm.js";
 import { ImagePopup } from "./ImagePopup.js";
 
+
 function App() {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null)
 
-
+  function handleCardClick(card) {
+    setSelectedCard(card)
+  }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -29,6 +33,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard(null)
 
   }
   return (
@@ -39,20 +44,9 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onEditAvatar={handleEditAvatarClick}
         onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick}
       />
-      <template className="elements">
-        <div className="element">
-          <img src="../src/images/mgu.jpg" alt="" className="element__photo" />
-          <button type="button" className="element__trash"></button>
-          <div className="element__block">
-            <h2 className="element__text"></h2>
-            <div className="element__like_block">
-              <button type="button" className="element__like"></button>
-              <span className="element__like_counter"></span>
-            </div>
-          </div>
-        </div>
-      </template>
+
       <PopupWithForm
         name="edit"
         title="Редактировать профиль"
@@ -121,7 +115,9 @@ function App() {
 
       </PopupWithForm>
 
-      <ImagePopup>
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}>
 
       </ImagePopup>
 
