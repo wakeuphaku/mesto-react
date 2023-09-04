@@ -83,6 +83,14 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       });
   }
+
+  changeLikeCardStatus(cardId, isLiked, _id) {
+    return fetch(`${this.baseUrl}cards/${_id}/likes/${cardId}`, {
+      method: isLiked ? 'DELETE' : 'PUT',
+      headers: this.headers
+    });
+  }
+
   getLike(_id) {
     return fetch(`${this.baseUrl}cards/${_id}/likes`, {
       method: 'PUT',
