@@ -6,6 +6,7 @@ import { PopupWithForm } from "./PopupWithForm.js";
 import { ImagePopup } from "./ImagePopup.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext"
 import { api } from "../utils/Api.js";
+import EditProfilePopup from "./EditProfilePopup.js";
 
 
 function App() {
@@ -16,11 +17,14 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null)
   const [currentUser, setCurrentUser] = React.useState({})
 
+
+
+
   React.useEffect(() => {
     api
       .getCards()
-      .then(cards => {
-        setCards(cards);
+      .then(item => {
+        setCards(item);
       })
       .catch(err => {
         console.log(err);
@@ -37,14 +41,29 @@ function App() {
       })
   }, [])
 
+
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, !isLiked, card._id).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
+    api.changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) => { return state.map((c) => c._id === card._id ? newCard : c) });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  function handleCardDelete(card) {
+
+    api.deleteCard(card._id)
+      .then(() => {
+        setCards((cards) => cards.filter((item) => item._id !== card._id));
+      }).catch(err => {
+        console.log(err);
+      })
   }
 
   function handleCardClick(card) {
@@ -63,66 +82,59 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
+  function handleUpdateUser(data) {
+    api.editProfile(data.name, data.about)
+      .then((item) => {
+        setCurrentUser(item);
+        closeAllPopups();
+      }).catch(err => {
+        console.log(err);
+      })
+  }
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null)
-
   }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <body className="page">
 
         <Header />
         <Main
+          cards={cards}
           onEditProfile={handleEditProfileClick}
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
-          cards={cards}
+          onCardDelete={handleCardDelete}
+
         />
 
-        <PopupWithForm
+        {/* <EditProfilePopup
           name="edit"
           title="Редактировать профиль"
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        >
-          <div className="popup__form-block">
-            <input
-              id="name-input"
-              minlength="2"
-              maxlength="30"
-              required
-              placeholder="Введите имя"
-              name="name"
-              type="text"
-              className="popup__input popup__input_text-name" />
-            <span className="popup__input-error name-input-error"></span>
-          </div>
-          <div className="popup__form-block">
-            <input
-              id="hobby-input"
-              minlength="2"
-              maxlength="200"
-              required
-              placeholder="Введите хобби"
-              name="hobby"
-              type="text"
-              className="popup__input popup__input_text-hobby"
-            />
-            <span className="popup__input-error hobby-input-error"></span>
-          </div>
+          onUpdateUser={handleUpdateUser}
+        /> */}
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
-        </PopupWithForm>
 
         <PopupWithForm
           name="add"
           title="Новое место"
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+
         >
 
           <div className="popup__form-block">

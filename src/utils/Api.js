@@ -33,13 +33,13 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       });
   }
-  editProfile(data) {
+  editProfile(name, hobby) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
-        name: data.name,
-        about: data.hobby
+        name: name,
+        about: hobby
       })
     })
       .then(res => {
@@ -84,41 +84,41 @@ class Api {
       });
   }
 
-  changeLikeCardStatus(cardId, isLiked, _id) {
-    return fetch(`${this.baseUrl}cards/${_id}/likes/${cardId}`, {
+  changeLikeCardStatus(_id, isLiked) {
+    return fetch(`${this.baseUrl}/cards/${_id}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: this.headers
     });
   }
 
-  getLike(_id) {
-    return fetch(`${this.baseUrl}cards/${_id}/likes`, {
-      method: 'PUT',
-      headers: this.headers
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
+  // getLike(_id) {
+  //   return fetch(`${this.baseUrl}cards/${_id}/likes`, {
+  //     method: 'PUT',
+  //     headers: this.headers
+  //   })
+  //     .then(res => {
+  //       if (res.ok) {
+  //         return res.json();
+  //       }
 
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
-  }
-  deleteLike(_id) {
-    return fetch(`${this.baseUrl}/cards/${_id}/likes`, {
-      method: 'DELETE',
-      headers: this.headers
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
+  //       // если ошибка, отклоняем промис
+  //       return Promise.reject(`Ошибка: ${res.status}`);
+  //     });
+  // }
+  // deleteLike(_id) {
+  //   return fetch(`${this.baseUrl}/cards/${_id}/likes`, {
+  //     method: 'DELETE',
+  //     headers: this.headers
+  //   })
+  //     .then(res => {
+  //       if (res.ok) {
+  //         return res.json();
+  //       }
 
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
-  }
+  //       // если ошибка, отклоняем промис
+  //       return Promise.reject(`Ошибка: ${res.status}`);
+  //     });
+  // }
   changeAvatar(avatar) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
