@@ -88,7 +88,15 @@ class Api {
     return fetch(`${this.baseUrl}/cards/${_id}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: this.headers
-    });
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        // если ошибка, отклоняем промис
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
   }
 
   // getLike(_id) {
@@ -124,7 +132,7 @@ class Api {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
-        avatar: avatar
+        avatar: avatar.avatar
       }),
     })
       .then(res => {

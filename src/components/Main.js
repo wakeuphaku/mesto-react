@@ -16,7 +16,7 @@ export function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardCli
     return (
         <main>
             <section className="profile">
-                <div onClick={onEditAvatar} className="profile__avatar">
+                <div className="profile__avatar" onClick={onEditAvatar}>
                     <img src={currentUser.avatar} alt="Аватар" className="profile__avatar-image" />
                 </div>
 
