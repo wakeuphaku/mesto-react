@@ -46,10 +46,10 @@ function EditProfilePopup(props) {
             <div className="popup__form-block">
                 <input
                     onChange={handleChangeName}
-                    value={name}
+                    value={name || ''}
                     id="name-input"
-                    minlength="2"
-                    maxlength="30"
+                    minLength="2"
+                    maxLength="30"
                     required
                     placeholder="Введите имя"
                     name="name"
@@ -60,10 +60,11 @@ function EditProfilePopup(props) {
             <div className="popup__form-block">
                 <input
                     onChange={handleChangeDescription}
-                    value={description}
+
+                    value={description || ''}
                     id="hobby-input"
-                    minlength="2"
-                    maxlength="200"
+                    minLength="2"
+                    maxLength="200"
                     required
                     placeholder="Введите хобби"
                     name="hobby"

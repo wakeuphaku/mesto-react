@@ -1,4 +1,4 @@
-import { options } from "./options.js";
+import { apiOptions } from "./options.js";
 
 class Api {
   constructor(options) {
@@ -7,31 +7,24 @@ class Api {
 
   }
 
-  userInfo() {
+  _getResponseData(res) {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  }
+
+  getUserInfo() {
     return fetch(`${this.baseUrl}/users/me`, {
       headers: this.headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          // если ошибка, отклоняем промис
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-      });
+      .then(this._getResponseData)
   }
   getCards() {
     return fetch(`${this.baseUrl}/cards`, {
       headers: this.headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(this._getResponseData)
   }
   editProfile(name, hobby) {
     return fetch(`${this.baseUrl}/users/me`, {
@@ -42,16 +35,9 @@ class Api {
         about: hobby
       })
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(this._getResponseData)
   }
-  getNewCard(data) {
+  createCard(data) {
     return fetch(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: this.headers,
@@ -60,73 +46,25 @@ class Api {
         link: data.link
       }),
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(this._getResponseData)
   }
-  deleteCard(_id) {
-    return fetch(`${this.baseUrl}/cards/${_id}`, {
+  deleteCard(id) {
+    return fetch(`${this.baseUrl}/cards/${id}`, {
       method: 'DELETE',
       headers: this.headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(this._getResponseData)
   }
 
-  changeLikeCardStatus(_id, isLiked) {
-    return fetch(`${this.baseUrl}/cards/${_id}/likes`, {
+  changeLikeCardStatus(id, isLiked) {
+    return fetch(`${this.baseUrl}/cards/${id}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: this.headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(this._getResponseData)
   }
 
-  // getLike(_id) {
-  //   return fetch(`${this.baseUrl}cards/${_id}/likes`, {
-  //     method: 'PUT',
-  //     headers: this.headers
-  //   })
-  //     .then(res => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
 
-  //       // если ошибка, отклоняем промис
-  //       return Promise.reject(`Ошибка: ${res.status}`);
-  //     });
-  // }
-  // deleteLike(_id) {
-  //   return fetch(`${this.baseUrl}/cards/${_id}/likes`, {
-  //     method: 'DELETE',
-  //     headers: this.headers
-  //   })
-  //     .then(res => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
-
-  //       // если ошибка, отклоняем промис
-  //       return Promise.reject(`Ошибка: ${res.status}`);
-  //     });
-  // }
   changeAvatar(avatar) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
@@ -135,15 +73,8 @@ class Api {
         avatar: avatar.avatar
       }),
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(this._getResponseData)
   }
 }
 
-export const api = new Api(options);
+export const api = new Api(apiOptions);

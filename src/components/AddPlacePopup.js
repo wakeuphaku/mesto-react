@@ -38,9 +38,10 @@ function AddPlacePopup(props) {
         >
             <div className="popup__form-block">
                 <input
+
                     id="place-input"
-                    minlength="2"
-                    maxlength="30"
+                    minLength="2"
+                    maxLength="30"
                     required
                     placeholder="Название"
                     name="place"
@@ -48,6 +49,7 @@ function AddPlacePopup(props) {
                     className="popup__input popup__input_text-place"
                     onChange={handleCardName}
                     value={place}
+
                 />
                 <span className="popup__input-error place-input-error"></span>
             </div>

@@ -30,7 +30,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    api.userInfo()
+    api.getUserInfo()
       .then(item => {
         setCurrentUser(item);
       })
@@ -56,7 +56,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(card) {
-    api.getNewCard(card)
+    api.createCard(card)
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -125,7 +125,7 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <body className="page">
+      <div className="page">
 
         <Header />
         <Main
@@ -170,7 +170,7 @@ function App() {
 
         </AddPlacePopup>
         <Footer />
-      </body >
+      </div >
     </CurrentUserContext.Provider>
   );
 }
