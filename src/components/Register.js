@@ -1,6 +1,40 @@
 import { Header } from "./Header"
+import React from "react";
 
-export function Register() {
+import { register } from '../utils/Auth.js';
+import { Link, useNavigate } from 'react-router-dom';
+
+export function Register(props) {
+    const [formValue, setFormValue] = React.useState({
+        email: '',
+        password: '',
+
+    })
+
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormValue({
+            ...formValue,
+            [name]: value,
+        });
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        register(formValue.email, formValue.password)
+            .then((res) => {
+                if (res.data) {
+
+                    navigate("/sign-in", { replace: true });
+                } else {
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     return (
         <>
             <Header
@@ -8,7 +42,7 @@ export function Register() {
             />
             <section className="register" >
                 <h2 className="register__title">Регистрация</h2>
-                <form className="register__form">
+                <form className="register__form" onSubmit={handleSubmit}>
 
                     <input
                         id="email"
@@ -16,7 +50,8 @@ export function Register() {
                         type="email"
                         placeholder="Email"
                         className="register__input register__input-email"
-
+                        value={formValue.email}
+                        onChange={handleChange}
                         required
                         autoComplete='off'
                     />
@@ -24,9 +59,10 @@ export function Register() {
                         id="password"
                         type="password"
                         name="password"
-                        placeholder="Пароль "
+                        placeholder="Пароль"
                         className="register__input register__input-password"
-
+                        value={formValue.password}
+                        onChange={handleChange}
                         required
                         autoComplete='off'
                     />
@@ -36,7 +72,7 @@ export function Register() {
 
                 </form>
                 <div className="register__question">
-                    <p>Уже зарегистрированы? Войти</p>
+                    <p>Уже зарегистрированы? <Link to="/sign-in" className="register__login-link">Войти</Link> </p>
                 </div>
 
 
