@@ -23,23 +23,22 @@ export function Register(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         register(formValue.email, formValue.password)
-            .then((res) => {
-                if (res.data) {
-
+            .then((item) => {
+                if (item.data) {
+                    props.handleInfoTooltipClick(true);
                     navigate("/sign-in", { replace: true });
                 } else {
-
+                    props.handleInfoTooltipClick(false);
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch((err) => {
+                console.log(err);
+
             });
     };
     return (
         <>
-            <Header
-                enter={"Войти"}
-            />
+
             <section className="register" >
                 <h2 className="register__title">Регистрация</h2>
                 <form className="register__form" onSubmit={handleSubmit}>

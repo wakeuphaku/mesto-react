@@ -60,3 +60,8 @@
 @import url('../src/blocks/login/__input/login__input.css');
 @import url('../src/blocks/login/__question/login__question.css');
 @import url('../src/blocks/login/__title/login__title.css');
+@import url('../src/blocks/header/__info/header__info.css');
+@import url('../src/blocks/header/__info-button/header__info-button.css');
+@import url('../src/blocks/popup/__status/popup__status.css');
+@import url('../src/blocks/popup/__status-text/popup__status-text.css');
+@import url('../src/blocks/header/__info-email/header____info-email.css');

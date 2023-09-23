@@ -2,7 +2,7 @@ import { Header } from "./Header"
 import React from "react";
 
 import { login } from '../utils/Auth.js';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function Login(props) {
     const navigate = useNavigate();
@@ -23,21 +23,22 @@ export function Login(props) {
             return;
         }
         login(formValue.email, formValue.password)
-            .then((data) => {
-                console.log(data);
-                if (data.token) {
+            .then((item) => {
+                console.log(item);
+                if (item.token) {
                     setFormValue({ email: "", password: "" });
                     props.handleLogin();
+
                     navigate("/", { replace: true });
                 }
+
             })
             .catch((err) => console.log(err));
+        props.handleInfoTooltipClick(false);
     };
     return (
         <>
-            <Header
-                enter={"Регистрация"}
-            />
+
             <section className="login" >
                 <h2 className="login__title">Вход</h2>
                 <form
@@ -61,7 +62,7 @@ export function Login(props) {
                         name="password"
                         placeholder="Пароль"
                         className="login__input login__input-password"
-                        value={formValue.email}
+                        value={formValue.password}
                         onChange={handleChange}
                         required
                         autoComplete='off'
