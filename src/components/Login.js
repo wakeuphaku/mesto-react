@@ -1,4 +1,4 @@
-import { Header } from "./Header"
+
 import React from "react";
 
 import { login } from '../utils/Auth.js';
@@ -24,7 +24,7 @@ export function Login(props) {
         }
         login(formValue.email, formValue.password)
             .then((item) => {
-                console.log(item);
+                // console.log(item);
                 if (item.token) {
                     setFormValue({ email: "", password: "" });
                     props.handleLogin();
@@ -33,8 +33,10 @@ export function Login(props) {
                 }
 
             })
-            .catch((err) => console.log(err));
-        props.handleInfoTooltipClick(false);
+            .catch((err) => {
+                console.log(err);
+                props.handleInfoTooltipClick(false);
+            })
     };
     return (
         <>

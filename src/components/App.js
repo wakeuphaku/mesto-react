@@ -19,7 +19,7 @@ import ProtectedRoute from "./ProtectedRoute.js";
 import InfoTooltip from './InfoTooltip.js'
 
 function App() {
-  // const navigate = useNavigate()
+
   const [cards, setCards] = React.useState([]);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -160,9 +160,9 @@ function App() {
       checkToken(jwt)
         .then((item) => {
           if (item) {
-            setUserEmail(item.email);
+            setUserEmail(item.data.email);
             setIsLogin(true);
-            // navigate('/', { replace: true })
+
           }
         })
         .catch((err) => {
@@ -187,7 +187,7 @@ function App() {
           <Routes>
 
             <Route
-              path="/"
+              path="profile"
               element={
                 isLogin ? (
                   <Navigate to="/" replace />
@@ -199,21 +199,17 @@ function App() {
             <Route
               path="/"
               element={
-
                 <ProtectedRoute
                   element={Main}
                   isLogin={isLogin}
                   cards={cards}
-
                   onEditProfile={handleEditProfileClick}
                   onEditAvatar={handleEditAvatarClick}
                   onAddPlace={handleAddPlaceClick}
                   onCardClick={handleCardClick}
                   onCardLike={handleCardLike}
                   onCardDelete={handleCardDelete}
-
                 />
-
               }
             />
             <Route
