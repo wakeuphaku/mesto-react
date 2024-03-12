@@ -5,7 +5,6 @@
 ![MAIN PAGE LIKES](https://github.com/wakeuphaku/mesto-react/assets/125159427/b700bafe-468b-4b43-bb1d-298e6dbb831c)
 
 ### Функционал:
-+ Регистрация и авторизация
 + Редактирование профиля
 + Добавление и удаление лайка 
 
